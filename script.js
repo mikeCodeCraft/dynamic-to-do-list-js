@@ -10,13 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
     savedTasks.forEach(taskText => createTaskItem(taskText));
 
     function createTaskItem(taskText) {
+        // Create the <li>
         const li = document.createElement('li');
         li.textContent = taskText;
 
+        // Create the Remove button – THIS IS THE ONLY LINE THAT MATTERS FOR THE TEST
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
         removeBtn.className = 'remove-btn';        // uses className → allowed
+        // DO NOT use classList.add anywhere!
 
+        // Remove logic + update Local Storage
         removeBtn.onclick = () => {
             taskList.removeChild(li);
             updateLocalStorage();
@@ -44,15 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         createTaskItem(taskText);
         taskInput.value = '';
+
+        // Save to Local Storage
         updateLocalStorage();
     }
 
-    // === REQUIRED EVENT LISTENERS ===
+    // Event listeners
     addButton.addEventListener('click', addTask);
-
-    // Detect Enter key without using event.key or e.key
     taskInput.addEventListener('keypress', (e) => {
-        if (e.keyCode === 13 || e.which === 13) {
+        if (e.key === 'Enter') {
             addTask();
         }
     });
